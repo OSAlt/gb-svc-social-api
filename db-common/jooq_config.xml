@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration>
+    <!-- Configure the database connection here -->
+    <jdbc>
+        <driver>org.postgresql.Driver</driver>
+        <url>jdbc:postgresql://192.168.99.102:5432/social</url>
+        <user>social</user>
+        <password>social</password>
+    </jdbc>
+
+    <generator>
+        <database>
+            <name>org.jooq.meta.postgres.PostgresDatabase</name>
+            <includes>
+                config.user
+                | config.social_app
+                | config.social_app_type
+                | config.user_social
+
+                | DUMMY.everything_below_is_a_stored_procedure
+
+                | pg_catalog.array_agg
+                | pg_catalog.regexp_replace
+                | pg_catalog.row_number
+                | pg_catalog.txid_current
+
+
+            </includes>
+            <excludes/>
+
+            <schemata>
+                <schema>
+                    <inputSchema>config</inputSchema>
+                </schema>
+                <schema>
+                    <inputSchema>pg_catalog</inputSchema>
+                </schema>
+            </schemata>
+        </database>
+
+        <generate>
+            <pojos>true</pojos>
+            <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
+            <interfaces>true</interfaces>
+            <!-- Brings in JSR-308 adding compile time checks for @NotNull and @Size checks -->
+            <validationAnnotations>true</validationAnnotations>
+            <javaTimeTypes>true</javaTimeTypes>
+        </generate>
+        <name>org.jooq.codegen.JavaGenerator</name>
+
+        <target>
+            <packageName>org.geekbeacon.social.db.models</packageName>
+            <directory>target/generated-sources/jooq</directory>
+        </target>
+    </generator>
+</configuration>
