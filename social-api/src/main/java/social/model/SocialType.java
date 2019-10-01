@@ -5,5 +5,6 @@ public enum SocialType {
     TWITTER,
     INSTGRAM,
     YOUTUBE,
-    DISCORD
+    DISCORD,
+    AGGREGATE //Special value when passed will aggregate values when possible
 }

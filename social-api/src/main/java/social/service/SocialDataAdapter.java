@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 import social.model.AuthResponse;
 import social.model.SocialType;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class SocialDataAdapter {
@@ -15,8 +17,17 @@ public class SocialDataAdapter {
     Map<SocialType, SocialDataService> serviceMap = Maps.newHashMap();
 
     @Autowired
-    public SocialDataAdapter(@Qualifier("twitter") SocialDataService twitterService) {
+    public SocialDataAdapter(
+        @Qualifier("twitter") SocialDataService twitterService,
+        @Qualifier("FB") SocialDataService fbService,
+        @Qualifier("youtube") SocialDataService youtube,
+        @Qualifier("instagram") SocialDataService instagram,
+        @Qualifier("discord") SocialDataService discord) {
         serviceMap.put(SocialType.TWITTER, twitterService);
+        serviceMap.put(SocialType.FACEBOOK, fbService);
+        serviceMap.put(SocialType.YOUTUBE, youtube);
+        serviceMap.put(SocialType.INSTGRAM, instagram);
+        serviceMap.put(SocialType.DISCORD, discord);
     }
 
     private SocialDataService getService(SocialType socialType) {
@@ -37,6 +48,13 @@ public class SocialDataAdapter {
     }
 
     public int getCount(SocialType type) {
+        if(SocialType.AGGREGATE.equals(type)) {
+            return
+                Arrays.stream(SocialType.values())
+                    .filter(t -> !t.equals(SocialType.AGGREGATE))
+                    .map(this::getService).mapToInt(SocialDataService::getCount).sum();
+
+        }
         return getService(type).getCount();
 
     }
