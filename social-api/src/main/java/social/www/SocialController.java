@@ -3,6 +3,7 @@ package social.www;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import javax.xml.ws.WebServiceException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -31,6 +33,12 @@ public class SocialController {
         this.socialDataAdapter = socialDataAdapter;
     }
 
+
+    @CrossOrigin(origins = {"https://landing.nixiepixel.com",
+        "https://www.nixiepixel.com",
+        "https://nixiepixel.com",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000" })
     @GetMapping("api/social/types")
     public List<String> getSocialTypes() {
         List<String> types = Arrays.stream(SocialType.values()).map(Enum::name).collect(Collectors.toList());
@@ -52,10 +60,31 @@ public class SocialController {
         return null;
     }
 
-
+    @CrossOrigin(origins = {"https://landing.nixiepixel.com",
+        "https://www.nixiepixel.com",
+        "https://nixiepixel.com",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000" })
     @GetMapping("api/social/{type}/count")
     public long sayCount(@PathVariable("type") SocialType type) {
         return socialDataAdapter.getCount(type);
+    }
+
+
+    @CrossOrigin(origins = {"https://landing.nixiepixel.com",
+        "https://www.nixiepixel.com",
+        "https://nixiepixel.com",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000" })
+    @GetMapping("api/social/count/all")
+    public Map<String, Integer> getAllCounts() {
+        Map<String, Integer> collect = Arrays.stream(SocialType.values())
+            .filter(v-> !v.equals(SocialType.AGGREGATE))
+            .collect(Collectors.toMap(t -> t.name().toLowerCase(), socialDataAdapter::getCount));
+
+        return collect;
+
+
     }
 
 }
