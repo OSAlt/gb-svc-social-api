@@ -1,6 +1,12 @@
-version: '2.1'
+version: '3.1'
 
 services:
+  www:
+      image: geekbeacon/social-api:latest
+      build: social-api
+      command:  --server.port=2020 --spring.database.url=jdbc:postgresql://db:5432/social
+      ports:
+        - 9000:2020
   db:
     image: postgres:11.5
     restart: always
