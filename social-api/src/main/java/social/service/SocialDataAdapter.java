@@ -9,7 +9,6 @@ import social.model.SocialType;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class SocialDataAdapter {
@@ -22,11 +21,13 @@ public class SocialDataAdapter {
         @Qualifier("FB") SocialDataService fbService,
         @Qualifier("youtube") SocialDataService youtube,
         @Qualifier("instagram") SocialDataService instagram,
+        @Qualifier("twitch") SocialDataService twitch,
         @Qualifier("discord") SocialDataService discord) {
         serviceMap.put(SocialType.TWITTER, twitterService);
         serviceMap.put(SocialType.FACEBOOK, fbService);
         serviceMap.put(SocialType.YOUTUBE, youtube);
-        serviceMap.put(SocialType.INSTGRAM, instagram);
+        serviceMap.put(SocialType.INSTAGRAM, instagram);
+        serviceMap.put(SocialType.TWITCH, twitch);
         serviceMap.put(SocialType.DISCORD, discord);
     }
 
