@@ -1,9 +1,8 @@
 insert into config.social_app_type
 values
-('TWITTER'),
+('DISCORD'),
 ('FACEBOOK'),
 ('INSTAGRAM'),
-('DISCORD'),
+('TWITCH'),
+('TWITTER'),
 ('YOUTUBE');
-
-

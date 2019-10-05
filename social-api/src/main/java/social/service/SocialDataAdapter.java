@@ -3,6 +3,8 @@ package social.service;
 import com.google.common.collect.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import social.model.AuthResponse;
 import social.model.SocialType;
@@ -48,6 +50,7 @@ public class SocialDataAdapter {
         getService(type).saveRequestToken(token, verifier);
     }
 
+    @Cacheable(value = "durable", cacheManager= "durableCache")
     public int getCount(SocialType type) {
         if(SocialType.AGGREGATE.equals(type)) {
             return

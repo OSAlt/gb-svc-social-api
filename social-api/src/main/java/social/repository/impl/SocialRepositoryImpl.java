@@ -5,6 +5,8 @@ import org.geekbeacon.social.db.models.config.tables.UserSocial;
 import org.geekbeacon.social.db.models.config.tables.records.SocialAppRecord;
 import org.geekbeacon.social.db.models.config.tables.records.UserSocialRecord;
 import org.jooq.DSLContext;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import social.model.SocialType;
 import social.repository.SocialRepository;
@@ -12,6 +14,7 @@ import social.repository.SocialRepository;
 import static org.geekbeacon.social.db.models.config.Config.CONFIG;
 
 @Repository
+@CacheConfig(cacheNames = {"socialData"})
 public class SocialRepositoryImpl implements SocialRepository {
 
     private final DSLContext dslContext;
@@ -23,6 +26,7 @@ public class SocialRepositoryImpl implements SocialRepository {
     /**
      * @see SocialRepository#getSocialAppRecord(SocialType)
      */
+    @Cacheable
     @Override
     public SocialAppRecord getSocialAppRecord(@NonNull SocialType type) {
         SocialAppRecord record =
@@ -38,6 +42,7 @@ public class SocialRepositoryImpl implements SocialRepository {
         return record;
     }
 
+    @Cacheable
     @Override
     public UserSocialRecord getUserSocialRecord(long appId) {
             UserSocialRecord record =
@@ -49,8 +54,11 @@ public class SocialRepositoryImpl implements SocialRepository {
             return record;
     }
 
+    /**
+     * @see SocialRepository#saveUserSocialTokens(SocialType, String, String)
+     */
     @Override
-    public void saveUserSocailTokens(SocialType socialType, String token, String secret) {
+    public void saveUserSocialTokens(SocialType socialType, String token, String secret) {
         SocialAppRecord socialAppRecord = getSocialAppRecord(socialType);
         dslContext.insertInto(CONFIG.USER_SOCIAL)
             .set(CONFIG.USER_SOCIAL.ACCESS_TOKEN, token)

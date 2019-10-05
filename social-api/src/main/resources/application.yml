@@ -9,9 +9,17 @@ logging:
       springframework: ERROR
     root: INFO
 
+social:
+  twitch:
+    enabled: true
+    user_name: nixiepixel
+  twitter:
+    enabled: true
+
 spring:
   datasource:
-    #    url: jdbc:postgresql://localhost:5432/social
     url: jdbc:postgresql://192.168.99.102:5432/social
     username: social
     password: social
+
+

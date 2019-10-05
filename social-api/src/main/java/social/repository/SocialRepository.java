@@ -10,5 +10,5 @@ public interface SocialRepository {
 
     UserSocialRecord getUserSocialRecord(long appId);
 
-    void saveUserSocailTokens(SocialType socialType, String token, String secret);
+    void saveUserSocialTokens(SocialType socialType, String token, String secret);
 }
