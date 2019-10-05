@@ -10,6 +10,8 @@ logging:
     root: INFO
 
 social:
+  youtube:
+    enabled: true
   twitch:
     enabled: true
     user_name: nixiepixel
