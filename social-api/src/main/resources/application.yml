@@ -17,6 +17,8 @@ social:
     user_name: nixiepixel
   twitter:
     enabled: true
+  instagram:
+    username: nixietron
 
 spring:
   datasource:
