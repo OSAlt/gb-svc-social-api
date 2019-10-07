@@ -19,6 +19,8 @@ social:
     enabled: true
   instagram:
     username: nixietron
+  discord:
+    username: geekbeacon
 
 spring:
   datasource:
