@@ -14,6 +14,10 @@ jobs:
       with:
         java-version: 1.8
     - name: Bring up the database
-      run: docker-compose up -d db
+      run: cp env.template .env && docker-compose up -d db
+    - name: Apply SQL to database
+      run: cd flyway; sed  -i -e "s/192.168.99.102/$(hostname -I | awk '{print $1}')/" conf/flyway.conf ; cat conf/flyway.conf;  docker run --rm -v $(pwd)/sql:/flyway/sql -v $(pwd)/conf:/flyway/conf flyway/flyway migrate
+    - name: Fix DB config
+      run: cd db-common; sed -i "s/192.168.99.102/$(hostname -I | awk '{print $1}')/" jooq_config.xml
     - name: Build with Maven
       run: mvn clean install --file pom.xml
