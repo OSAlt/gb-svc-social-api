@@ -32,6 +32,7 @@ import java.util.Set;
 public class YouTubeSocialDataServiceImpl implements SocialDataService {
     private static final String NIXIEPIXEL = "NixiePixel";
     private static final String OSALT = "nixiedoeslinux";
+    public static final String CHANNEL_COUNT_URL = "https://www.googleapis.com/youtube/v3/channels";
     private final Set<String> channels = ImmutableSet.of(NIXIEPIXEL, OSALT);
     private final Map<String, Integer> defaults = ImmutableMap.of(NIXIEPIXEL, 221000, OSALT, 109000);
 
@@ -73,7 +74,7 @@ public class YouTubeSocialDataServiceImpl implements SocialDataService {
         }
         try {
             HttpUriRequest request = RequestBuilder.get()
-                .setUri("https://www.googleapis.com/youtube/v3/channels")
+                .setUri(CHANNEL_COUNT_URL)
                 .addParameter("part", "id,statistics")
                 .addParameter("forUsername", channelName)
                 .addParameter("key", apiKey)

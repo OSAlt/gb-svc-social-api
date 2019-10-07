@@ -1,0 +1,28 @@
+{
+  "approximate_presence_count": 332,
+  "code": "geekbeacon",
+  "guild": {
+    "splash": "f328b10778b0f157f69f298cd357daab",
+    "features": [
+      "PARTNERED",
+      "VIP_REGIONS",
+      "ANIMATED_ICON",
+      "NEWS",
+      "VANITY_URL",
+      "INVITE_SPLASH"
+    ],
+    "name": "GeekBeacon",
+    "verification_level": 1,
+    "icon": "a_0db8a907e2a0936c3511be1659e00afb",
+    "banner": null,
+    "id": "325197025719091201",
+    "vanity_url_code": "geekbeacon",
+    "description": null
+  },
+  "channel": {
+    "type": 0,
+    "id": "361832841677373452",
+    "name": "welcome"
+  },
+  "approximate_member_count": 4368
+}

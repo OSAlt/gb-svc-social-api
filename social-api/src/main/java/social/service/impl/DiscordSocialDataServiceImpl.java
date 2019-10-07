@@ -22,6 +22,7 @@ import social.service.SocialDataService;
 @Log4j2
 public class DiscordSocialDataServiceImpl implements SocialDataService {
 
+    protected static final String DISCORD_MEMBER_COUNT_URL = "https://discordapp.com/api/v6/invites/";
     private final SocialType socialType = SocialType.DISCORD;
     private final String username;
 
@@ -35,7 +36,8 @@ public class DiscordSocialDataServiceImpl implements SocialDataService {
         try {
             HttpClient client = HttpClients.createMinimal();
             HttpUriRequest request = RequestBuilder.get()
-                .setUri("https://discordapp.com/api/v6/invites/" + username + "?with_counts=true")
+                .setUri(DISCORD_MEMBER_COUNT_URL + username)
+                .addParameter("with_counts", "true")
                 .build();
 
             HttpResponse response = client.execute(request);
@@ -43,8 +45,7 @@ public class DiscordSocialDataServiceImpl implements SocialDataService {
                 throw new HttpResponseException(response.getStatusLine().getStatusCode(), "Invalid Status Code");
             }
 
-            int members = JsonPath.read(EntityUtils.toString(response.getEntity()), "$approximate_member_count");
-//            int currentlyOnlineMembers = JsonPath.read(EntityUtils.toString(response.getEntity()), "$approximate_presence_count");
+            int members = JsonPath.read(EntityUtils.toString(response.getEntity()), "$.approximate_member_count");
             log.debug("The {} channel: {} has {} members.", socialType.name(), username, members);
             return members;
         } catch (Exception e) {
@@ -55,11 +56,11 @@ public class DiscordSocialDataServiceImpl implements SocialDataService {
 
     @Override
     public AuthResponse authorize() {
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public void saveRequestToken(String token, String verifier) {
-
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

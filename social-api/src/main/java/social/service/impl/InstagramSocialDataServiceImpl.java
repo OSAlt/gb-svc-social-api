@@ -20,13 +20,13 @@ import social.service.SocialDataService;
 @Service
 @Qualifier("instagram")
 @Log4j2
-public class InstragramSocialDataServiceImpl implements SocialDataService {
+public class InstagramSocialDataServiceImpl implements SocialDataService {
 
     private final SocialType socialType = SocialType.INSTAGRAM;
     private final String username;
 
     @Autowired
-    public InstragramSocialDataServiceImpl(@Value("${social.instagram.username:nixietron}") String username) {
+    public InstagramSocialDataServiceImpl(@Value("${social.instagram.username:nixietron}") String username) {
         this.username = username;
     }
 
@@ -35,7 +35,8 @@ public class InstragramSocialDataServiceImpl implements SocialDataService {
         try {
             HttpClient client = HttpClients.createMinimal();
             HttpUriRequest request = RequestBuilder.get()
-                .setUri("https://www.instagram.com/" + username + "/?__a=1")
+                .setUri(String.format("https://www.instagram.com/%s/", username))
+                .addParameter("__a", "1")
                 .build();
 
             HttpResponse response = client.execute(request);
@@ -54,11 +55,11 @@ public class InstragramSocialDataServiceImpl implements SocialDataService {
 
     @Override
     public AuthResponse authorize() {
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public void saveRequestToken(String token, String verifier) {
-
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }
