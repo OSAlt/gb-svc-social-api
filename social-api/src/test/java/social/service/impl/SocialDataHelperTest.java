@@ -5,6 +5,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.StatusLine;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.powermock.api.mockito.PowerMockito;
@@ -27,8 +28,11 @@ public class SocialDataHelperTest {
         CloseableHttpResponse response = mock(CloseableHttpResponse.class);
         StatusLine statusLine = mock(StatusLine.class);
         HttpEntity httpEntity = mock(HttpEntity.class);
+        HttpClientBuilder builder = mock(HttpClientBuilder.class);
 
         when(HttpClients.createMinimal()).thenReturn(httpClient);
+        when(HttpClients.custom()).thenReturn(builder);
+        when(builder.build()).thenReturn(httpClient);
         when(httpClient.execute(any())).thenReturn(response);
         when(response.getStatusLine()).thenReturn(statusLine);
         when(statusLine.getStatusCode()).thenReturn(200);

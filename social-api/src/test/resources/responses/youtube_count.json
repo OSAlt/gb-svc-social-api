@@ -1,0 +1,22 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "\"p4VTdlkQv3HQeTEaXgvLePAydmU/iyqNKGD9ILL-RONtZWce2toglWY\"",
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 5
+  },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "\"p4VTdlkQv3HQeTEaXgvLePAydmU/u4hY-Tyij85bjT7BAWJ6HaazEh0\"",
+      "id": "UCMyAVYPgP_179gj9OIJZd4A",
+      "statistics": {
+        "viewCount": "17729623",
+        "commentCount": "0",
+        "subscriberCount": 123456,
+        "hiddenSubscriberCount": false,
+        "videoCount": "198"
+      }
+    }
+  ]
+}

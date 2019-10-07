@@ -30,6 +30,8 @@ import java.io.IOException;
 @Log4j2
 public class TwitchSocialDataServiceImpl implements SocialDataService {
     private static final String CLIENT_ID_HEADER = "Client-ID";
+    public static final String TWITCH_URL_COUNT = "https://api.twitch.tv/helix/users/follows";
+    public static final String TWITCH_URL_GET_USER_ID = "https://api.twitch.tv/helix/users";
     private final String userId;
     private final HttpClient client;
 
@@ -76,7 +78,7 @@ public class TwitchSocialDataServiceImpl implements SocialDataService {
         }
 
         HttpUriRequest request = RequestBuilder.get()
-            .setUri("https://api.twitch.tv/helix/users/follows")
+            .setUri(TWITCH_URL_COUNT)
             .addParameter("to_id", userId)
             .build();
 
@@ -107,7 +109,7 @@ public class TwitchSocialDataServiceImpl implements SocialDataService {
 
     private String getUserId(@NotNull String name) {
         HttpUriRequest request = RequestBuilder.get()
-            .setUri("https://api.twitch.tv/helix/users")
+            .setUri(TWITCH_URL_GET_USER_ID)
             .addParameter("login", name)
             .build();
         try {
@@ -116,8 +118,7 @@ public class TwitchSocialDataServiceImpl implements SocialDataService {
             if (response.getStatusLine().getStatusCode() != 200) {
                 return null;
             }
-            String id = JsonPath.read(responseBody, "$.data[0].id");
-            return id;
+            return JsonPath.read(responseBody, "$.data[0].id");
         } catch (IOException e) {
             log.error("Could not retrieve user id for login: {}", name, e);
 
