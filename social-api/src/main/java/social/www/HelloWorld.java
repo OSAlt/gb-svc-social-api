@@ -10,7 +10,7 @@ import java.util.Map;
 @RestController
 public class HelloWorld {
 
-    @GetMapping("/hello")
+    @GetMapping("v1.0//hello")
     public Map<String, String> sayHello(@RequestParam(name = "name", required = false, defaultValue = "World") String name) {
         Map<String, String> map = Maps.newHashMap();
         map.put("woot", "foo");

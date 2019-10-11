@@ -1,6 +1,7 @@
 package social.www;
 
 
+import io.swagger.annotations.Api;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @Log4j2
+@Api("SocialMedia")
 public class SocialController {
 
     private final SocialDataAdapter socialDataAdapter;
@@ -34,18 +36,14 @@ public class SocialController {
     }
 
 
-    @CrossOrigin(origins = {"https://landing.nixiepixel.com",
-        "https://www.nixiepixel.com",
-        "https://nixiepixel.com",
-        "http://localhost:8000",
-        "http://127.0.0.1:8000" })
-    @GetMapping("api/social/types")
+
+    @GetMapping("v1.0/social/types")
     public List<String> getSocialTypes() {
         List<String> types = Arrays.stream(SocialType.values()).map(Enum::name).collect(Collectors.toList());
         return types;
     }
 
-    @RequestMapping(value = "api/social/{type}/authorize", method = RequestMethod.GET)
+    @RequestMapping(value = "v1.0/social/{type}/authorize", method = RequestMethod.GET)
     public AuthResponse authorize(@PathVariable("type") SocialType type, HttpServletResponse httpResponse) throws IOException {
         AuthResponse response =  socialDataAdapter.authorize(type);
         if (response == null) {
@@ -60,23 +58,12 @@ public class SocialController {
         return null;
     }
 
-    @CrossOrigin(origins = {"https://landing.nixiepixel.com",
-        "https://www.nixiepixel.com",
-        "https://nixiepixel.com",
-        "http://localhost:8000",
-        "http://127.0.0.1:8000" })
-    @GetMapping("api/social/{type}/count")
+    @GetMapping("v1.0/social/{type}/count")
     public long sayCount(@PathVariable("type") SocialType type) {
         return socialDataAdapter.getCount(type);
     }
 
-
-    @CrossOrigin(origins = {"https://landing.nixiepixel.com",
-        "https://www.nixiepixel.com",
-        "https://nixiepixel.com",
-        "http://localhost:8000",
-        "http://127.0.0.1:8000" })
-    @GetMapping("api/social/count/all")
+    @GetMapping("v1.0/social/count/all")
     public Map<String, Integer> getAllCounts() {
         Map<String, Integer> collect = Arrays.stream(SocialType.values())
             .filter(v-> !v.equals(SocialType.AGGREGATE))
