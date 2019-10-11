@@ -22,7 +22,7 @@ public class CallbackController {
         this.socialDataAdapter = socialDataAdapter;
     }
 
-    @RequestMapping(value = "callback/{type}", method = RequestMethod.GET)
+    @RequestMapping(value = "v1.0/callback/{type}", method = RequestMethod.GET)
     public String  authorize(@PathVariable("type") SocialType type,
                              @RequestParam(name="oauth_token", defaultValue="Token")
                               String token,

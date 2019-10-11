@@ -18,7 +18,7 @@ public class CacheController {
         this.cacheManager = cacheManager;
     }
 
-    @RequestMapping(value = "cache/clear", method = RequestMethod.GET)
+    @RequestMapping(value = "v1.0/cache/clear", method = RequestMethod.GET)
     public String  clearCache() {
         for (String cacheName : cacheManager.getCacheNames()) {
             try {
