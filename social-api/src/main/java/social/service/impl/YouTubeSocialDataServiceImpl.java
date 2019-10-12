@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -85,7 +86,7 @@ public class YouTubeSocialDataServiceImpl implements SocialDataService {
             if (response.getStatusLine().getStatusCode() != 200) {
                 throw new RuntimeException("Invalid Status Code");
             }
-            int followers = JsonPath.read(responseBody, "$.items[0].statistics.subscriberCount");
+            int followers = NumberUtils.toInt(JsonPath.read(responseBody, "$.items[0].statistics.subscriberCount"));
             log.debug("The channel: {} has {} followers.", channelName, followers);
             return followers;
         } catch (Exception e) {
