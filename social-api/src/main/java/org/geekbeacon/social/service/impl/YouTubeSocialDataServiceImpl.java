@@ -15,6 +15,8 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.geekbeacon.social.db.models.config.tables.records.SocialAppRecord;
+import org.geekbeacon.social.model.SocialActivity;
+import org.geekbeacon.social.support.JsonHttpHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +26,7 @@ import org.geekbeacon.social.model.SocialType;
 import org.geekbeacon.social.repository.SocialRepository;
 import org.geekbeacon.social.service.SocialDataService;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,7 +36,7 @@ import java.util.Set;
 public class YouTubeSocialDataServiceImpl implements SocialDataService {
     private static final String NIXIEPIXEL = "NixiePixel";
     private static final String OSALT = "nixiedoeslinux";
-    public static final String CHANNEL_COUNT_URL = "https://www.googleapis.com/youtube/v3/channels";
+    private static final String CHANNEL_COUNT_URL = "https://www.googleapis.com/youtube/v3/channels";
     private final Set<String> channels = ImmutableSet.of(NIXIEPIXEL, OSALT);
     private final Map<String, Integer> defaults = ImmutableMap.of(NIXIEPIXEL, 221000, OSALT, 109000);
 
@@ -62,11 +65,37 @@ public class YouTubeSocialDataServiceImpl implements SocialDataService {
 
 
     /**
-     * @see SocialDataService#getCount()
+     * @see SocialDataService#getFollowerCount()
      */
     @Override
-    public int getCount() {
+    public int getFollowerCount() {
         return channels.stream().mapToInt(this::getChannelCount).sum();
+    }
+
+
+    /**
+     * @see SocialDataService#authorizeApplication()
+     */
+    @Override
+    public AuthResponse authorizeApplication() {
+        throw new NotImplementedException("Not supported");
+    }
+
+    /**
+     * @see SocialDataService#saveRequestToken(String, String)
+     */
+    @Override
+    public void saveRequestToken(String token, String verifier) {
+        throw new NotImplementedException("Not supported");
+    }
+
+    /**
+     * @see SocialDataService#getSocialActivity(int)
+     */
+    @Override
+    public List<SocialActivity> getSocialActivity(int limit) {
+
+        throw new UnsupportedOperationException("Not yet Implemented");
     }
 
     private int getChannelCount(String channelName) {
@@ -83,9 +112,7 @@ public class YouTubeSocialDataServiceImpl implements SocialDataService {
 
             HttpResponse response = client.execute(request);
             String responseBody = EntityUtils.toString(response.getEntity());
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new RuntimeException("Invalid Status Code");
-            }
+            JsonHttpHelper.validateResponse(response, true);
             int followers = NumberUtils.toInt(JsonPath.read(responseBody, "$.items[0].statistics.subscriberCount"));
             log.debug("The channel: {} has {} followers.", channelName, followers);
             return followers;
@@ -94,15 +121,5 @@ public class YouTubeSocialDataServiceImpl implements SocialDataService {
             return ObjectUtils.defaultIfNull(defaults.get(channelName), 0);
         }
 
-    }
-
-    @Override
-    public AuthResponse authorize() {
-        throw new NotImplementedException("Not supported");
-    }
-
-    @Override
-    public void saveRequestToken(String token, String verifier) {
-        throw new NotImplementedException("Not supported");
     }
 }

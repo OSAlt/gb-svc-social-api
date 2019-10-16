@@ -9,6 +9,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.geekbeacon.social.model.SocialActivity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,12 +18,14 @@ import org.geekbeacon.social.model.AuthResponse;
 import org.geekbeacon.social.model.SocialType;
 import org.geekbeacon.social.service.SocialDataService;
 
+import java.util.List;
+
 @Service
 @Qualifier("discord")
 @Log4j2
 public class DiscordSocialDataServiceImpl implements SocialDataService {
 
-    protected static final String DISCORD_MEMBER_COUNT_URL = "https://discordapp.com/api/v6/invites/";
+    private static final String DISCORD_MEMBER_COUNT_URL = "https://discordapp.com/api/v6/invites/";
     private final SocialType socialType = SocialType.DISCORD;
     private final String username;
 
@@ -31,8 +34,11 @@ public class DiscordSocialDataServiceImpl implements SocialDataService {
         this.username = username;
     }
 
+    /**
+     * @see SocialDataService#getFollowerCount() 
+     */
     @Override
-    public int getCount() {
+    public int getFollowerCount() {
         try {
             HttpClient client = HttpClients.createMinimal();
             HttpUriRequest request = RequestBuilder.get()
@@ -54,13 +60,26 @@ public class DiscordSocialDataServiceImpl implements SocialDataService {
         }
     }
 
+    /**
+     * @see SocialDataService#authorizeApplication() 
+     */
     @Override
-    public AuthResponse authorize() {
+    public AuthResponse authorizeApplication() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
-
+    
+    /**
+     * @see SocialDataService#saveRequestToken(String, String) 
+     */
     @Override
     public void saveRequestToken(String token, String verifier) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+    /**
+     * @see SocialDataService#getSocialActivity(int) 
+     */
+    @Override
+    public List<SocialActivity> getSocialActivity(int limit) {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }
