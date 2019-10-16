@@ -26,7 +26,7 @@
                 </executions>
                 <configuration>
                     <classifier>spring-boot</classifier>
-                    <mainClass>social.SocialRestApi</mainClass>
+                    <mainClass>org.geekbeacon.social.SocialRestApi</mainClass>
                 </configuration>
             </plugin>
         </plugins>

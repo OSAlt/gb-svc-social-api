@@ -17,6 +17,8 @@
                 | config.social_app_type
                 | config.user_social
 
+                | nixie.contact_form
+
                 | DUMMY.everything_below_is_a_stored_procedure
 
                 | pg_catalog.array_agg
@@ -31,6 +33,9 @@
             <schemata>
                 <schema>
                     <inputSchema>config</inputSchema>
+                </schema>
+                <schema>
+                    <inputSchema>nixie</inputSchema>
                 </schema>
                 <schema>
                     <inputSchema>pg_catalog</inputSchema>
