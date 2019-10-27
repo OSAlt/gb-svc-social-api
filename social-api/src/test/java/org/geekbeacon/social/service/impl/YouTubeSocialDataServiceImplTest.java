@@ -41,13 +41,13 @@ public class YouTubeSocialDataServiceImplTest {
     @Test
     public void getCount() {
         int expected = 246912;
-        int count = service.getCount();
+        int count = service.getFollowerCount();
         assertEquals(expected, count);
     }
 
     @Test(expected = NotImplementedException.class)
     public void authorize() {
-        service.authorize();
+        service.authorizeApplication();
     }
 
     @Test(expected = NotImplementedException.class)

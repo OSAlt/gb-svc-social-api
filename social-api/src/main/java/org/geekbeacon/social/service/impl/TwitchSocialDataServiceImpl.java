@@ -13,28 +13,31 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.geekbeacon.social.db.models.config.tables.records.SocialAppRecord;
+import org.geekbeacon.social.model.AuthResponse;
+import org.geekbeacon.social.model.SocialActivity;
+import org.geekbeacon.social.model.SocialType;
+import org.geekbeacon.social.repository.SocialRepository;
+import org.geekbeacon.social.service.SocialDataService;
+import org.geekbeacon.social.support.JsonHttpHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.geekbeacon.social.model.AuthResponse;
-import org.geekbeacon.social.model.SocialType;
-import org.geekbeacon.social.repository.SocialRepository;
-import org.geekbeacon.social.service.SocialDataService;
 
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.util.List;
 
 @Qualifier("twitch")
 @Service
 @Log4j2
 public class TwitchSocialDataServiceImpl implements SocialDataService {
     private static final String CLIENT_ID_HEADER = "Client-ID";
-    public static final String TWITCH_URL_COUNT = "https://api.twitch.tv/helix/users/follows";
-    public static final String TWITCH_URL_GET_USER_ID = "https://api.twitch.tv/helix/users";
+    private static final String TWITCH_URL_COUNT = "https://api.twitch.tv/helix/users/follows";
+    private static final String TWITCH_URL_GET_USER_ID = "https://api.twitch.tv/helix/users";
+
     private final String userId;
     private final HttpClient client;
-
     private final int DEFAULT_FALL_BACK = 2038;
     private final Header header;
     private String GB_CHANNEL;
@@ -47,11 +50,11 @@ public class TwitchSocialDataServiceImpl implements SocialDataService {
     @Autowired
     public TwitchSocialDataServiceImpl(SocialRepository socialRepository,
                                        @Value("${social.twitch.enabled:true}") boolean enabled,
-                                       @Value("${social.twitch.user_name:nixiepixel}") String userName ) {
+                                       @Value("${social.twitch.user_name:nixiepixel}") String userName) {
 
         SocialAppRecord record = null;
-        if(enabled) {
-            record =socialRepository.getSocialAppRecord(socialType);
+        if (enabled) {
+            record = socialRepository.getSocialAppRecord(socialType);
         }
         if (!enabled || record == null) {
             enabled = false;
@@ -68,11 +71,11 @@ public class TwitchSocialDataServiceImpl implements SocialDataService {
     }
 
     /**
-     * @see SocialDataService#getCount()
+     * @see SocialDataService#getFollowerCount()
      */
 
     @Override
-    public int getCount() {
+    public int getFollowerCount() {
         if (!isEnabled()) {
             return DEFAULT_FALL_BACK;
         }
@@ -85,7 +88,7 @@ public class TwitchSocialDataServiceImpl implements SocialDataService {
         try {
             HttpResponse response = client.execute(request);
             String responseBody = EntityUtils.toString(response.getEntity());
-            if (response.getStatusLine().getStatusCode() != 200) {
+            if (JsonHttpHelper.validateResponse(response, false)) {
                 return DEFAULT_FALL_BACK;
             }
             int cnt = JsonPath.read(responseBody, "$.total");
@@ -96,14 +99,28 @@ public class TwitchSocialDataServiceImpl implements SocialDataService {
         }
     }
 
+    /**
+     * @see SocialDataService#authorizeApplication()
+     */
     @Override
-    public AuthResponse authorize() {
+    public AuthResponse authorizeApplication() {
         throw new RuntimeException("Unsupported feature");
     }
 
+    /**
+     * @see SocialDataService#saveRequestToken(String, String)
+     */
     @Override
     public void saveRequestToken(String token, String verifier) {
         throw new RuntimeException("Unsupported feature");
+    }
+
+    /**
+     * @see SocialDataService#getSocialActivity(int)
+     */
+    @Override
+    public List<SocialActivity> getSocialActivity(int limit) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
 

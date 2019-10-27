@@ -30,13 +30,13 @@ class DiscordSocialDataServiceImplTest {
     @Test
     public void getCount() {
         int expected = 4368;
-        int count = service.getCount();
+        int count = service.getFollowerCount();
         assertEquals(expected,count);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void authorize() {
-        service.authorize();
+        service.authorizeApplication();
     }
 
     @Test(expected = UnsupportedOperationException.class)

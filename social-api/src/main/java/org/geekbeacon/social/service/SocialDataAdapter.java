@@ -1,6 +1,7 @@
 package org.geekbeacon.social.service;
 
 import com.google.common.collect.Maps;
+import org.geekbeacon.social.model.SocialActivity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.Cacheable;
@@ -9,6 +10,7 @@ import org.geekbeacon.social.model.AuthResponse;
 import org.geekbeacon.social.model.SocialType;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -32,6 +34,11 @@ public class SocialDataAdapter {
         serviceMap.put(SocialType.DISCORD, discord);
     }
 
+    @Cacheable(value = "socialData", cacheManager= "cacheManager")
+    public List<SocialActivity> getActivity(SocialType type, int limit) {
+        return getService(type).getSocialActivity(limit);
+    }
+
     private SocialDataService getService(SocialType socialType) {
         if (serviceMap.containsKey(socialType)) {
             return serviceMap.get(socialType);
@@ -41,7 +48,7 @@ public class SocialDataAdapter {
     }
 
     public AuthResponse authorize(SocialType type) {
-        return getService(type).authorize();
+        return getService(type).authorizeApplication();
     }
 
 
@@ -55,10 +62,10 @@ public class SocialDataAdapter {
             return
                 Arrays.stream(SocialType.values())
                     .filter(t -> !t.equals(SocialType.AGGREGATE))
-                    .map(this::getService).mapToInt(SocialDataService::getCount).sum();
+                    .map(this::getService).mapToInt(SocialDataService::getFollowerCount).sum();
 
         }
-        return getService(type).getCount();
+        return getService(type).getFollowerCount();
 
     }
 }
