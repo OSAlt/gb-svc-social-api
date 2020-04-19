@@ -61,7 +61,7 @@
         <configuration>
             <jdbc>
                 <driver>org.postgresql.Driver</driver>
-                <url>jdbc:postgresql://localhost:5432/social</url>
+                <url>jdbc:postgresql://${env.DB_HOST}:${env.DB_PORT}/social</url>
                 <user>${env.POSTGRES_USER}</user>
                 <password>${env.POSTGRES_PASSWORD}</password>
             </jdbc>
