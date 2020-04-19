@@ -1,0 +1,24 @@
+dist: disco
+
+services:
+  - docker
+  - postgresql
+
+env:
+  global:
+    - PGPASSWORD=social
+    - FLYWAY_PASSWORD=social
+    - secure: Adu0Zu72yw2nUve+hbpuuU6KMkIM+GqRBHi+wA5d15UoD1pYf55duH2H2EVVGCr20FpYb6kOh7uX5fWKx0h9yFbyX9lFz/OPETMyQz1aXJs3gpmsQt7hrBoM+nMh31Jv/5UiOgw2TJ/r8yw+MoOuS2w3VEWhPT4raYikl+wHPdoQovAYBgdG0puS4oVJvFVAlss75bcpyxYzC5ehkduveCfEp7bc7L54dXK8mv+88QSWqLxM97PZzfDU6xQtfFyI+AY6KTtEfDF741bVc1zJi7VEUh1Ef9grLDBy3KK7QPxtLHQBWsIYCZtEl4XHrAFgYcQ/VKLRXR4LSBSXBeFEyygr4ZYMxEPYQ4WHC8HIwlmzlccL5DH1N+SihXgvVN7Ixds2M4HMmn7oSwYo99loU+fw7ugJNlEiuMBA6lSptCcqqb1LA6Iq6HdoSxco58stKcKOETbDrXpQcJMg9Ecmcvh+hpqfFBJ52FLn/7Fgnk1LN8ygCszJrejf4NDBtJXlJTzjxiCXIpvOPtdB/AFHuzwx61EQ7282DVHVJNB2dIRj9I3nY7YxdCOD7uXutDRS6qwgLRlHMcku1RifMF9aAB00HAFKUjb0T81vk6A061KYvPmwBB0hRrB1XW5g7HB1cwcPG+msjR3f10J4wSsavH1OdJ/rN71jMC/O0UeLFnk=
+
+before_script:
+  - psql -c 'create database social;' -U postgres
+before_install:
+  - cp env.template .env
+  - sudo apt-get install -y openjdk-8-jdk maven netcat  postgresql-client
+
+jobs:
+  include:
+    - stage: start docker image
+      if: type = pull_request or branch = 'master'
+      script:
+        - bash ./scripts/integrations.sh
