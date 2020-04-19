@@ -27,3 +27,4 @@ target
 .env
 sql/V999__private.sql
 flyway/sql/V999__private.sql
+data
