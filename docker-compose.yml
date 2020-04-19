@@ -5,6 +5,7 @@ services:
       image: geekbeacon/social-api:latest
       build: social-api
       command:  --server.port=2020 --spring.database.url=jdbc:postgresql://db:5432/social
+      env_file: .env
       ports:
         - 9000:2020
   social_db:
