@@ -11,7 +11,9 @@ services:
       ports:
         - 9000:2020
   social_db:
-    image: postgres:11.5
+    image: postgres:12
+    ports:
+      - 5432:5432
     volumes:
       - ./data:/var/lib/postgresql/data
     restart: always
