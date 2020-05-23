@@ -6,15 +6,6 @@ option go_package = ".;autogen";
 import "google/api/annotations.proto";
 //import "google/protobuf/empty.proto";
 
-// The Customer service definition.
-service Customer {   
-  // Get all Customers with filter - A server-to-client streaming RPC.
-  rpc GetCustomers(CustomerFilter) returns (stream CustomerRequest) {
-        option (google.api.http) = { get: "/v1/customers" };
-      }
-  // Create a new Customer - A simple RPC 
-  rpc CreateCustomer (CustomerRequest) returns (CustomerResponse) {}
-}
 
 // Request message for creating a new customer
 message CustomerRequest {
@@ -41,3 +32,20 @@ message CustomerResponse {
 message CustomerFilter {    
   string keyword = 1;
 }
+
+// The Customer service definition.
+service Customer {   
+  // Get all Customers with filter - A server-to-client streaming RPC.
+  rpc GetCustomers(CustomerFilter) returns (stream CustomerRequest) {
+        option (google.api.http) = { get: "/v1/customer/list" };
+      }
+  // Create a new Customer - A simple RPC 
+  rpc CreateCustomer (CustomerRequest) returns (CustomerResponse) {
+        option (google.api.http) = {
+            post: "/v1/customer",
+            body: "*"
+        };
+      }
+}
+
+

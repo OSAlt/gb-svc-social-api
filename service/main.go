@@ -24,6 +24,7 @@ type server struct {
 }
 
 // CreateCustomer creates a new Customer
+
 func (s *server) CreateCustomer(ctx context.Context, in *pb.CustomerRequest) (*pb.CustomerResponse, error) {
     s.savedCustomers = append(s.savedCustomers, in)
     return &pb.CustomerResponse{Id: in.Id, Success: true}, nil
