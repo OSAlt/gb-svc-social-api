@@ -1,1 +1,12 @@
 temp
+client/client
+service/service
+.DS_Store
+.vscode
+.env
+data
+static
+sqlboiler.toml
+__debug_bin
+.idea
+conf/app.yml

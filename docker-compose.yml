@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  socialsvc:
+    build:
+      context: .
+    image: geekbeacon/socialsvc:latest
+    volumes:
+        - ./conf:/opt/gb-svc-social-api/conf/
+    ports:
+      - 8011:8011
+  social_db:
+    image: postgres:12
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    restart: always
+    env_file: .env
