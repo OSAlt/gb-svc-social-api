@@ -32,7 +32,7 @@ var (
 
 // server is used to implement customer.CustomerServer.
 type GrpcServer struct {
-	savedCustomers []*pb.CustomerRequest
+	// savedCustomers []*pb.CustomerRequest
 }
 
 func startGrpc() {
@@ -46,7 +46,7 @@ func startGrpc() {
 	// Creates a new gRPC server
 
 	s := grpc.NewServer()
-	pb.RegisterCustomerServer(s, &GrpcServer{})
+	pb.RegisterSocialServer(s, &GrpcServer{})
 	s.Serve(lis)
 
 }
@@ -68,7 +68,7 @@ func runWww() error {
 	)
 
 	opts := []grpc.DialOption{grpc.WithInsecure()}
-	err := pb.RegisterCustomerHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	err := pb.RegisterSocialHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
 	if err != nil {
 		return err
 	}

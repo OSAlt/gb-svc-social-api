@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 DIR="proto"
-FILE="testing.proto"
+FILE="social.proto"
 #FILE="hello.proto"
 genGoCode() 
 {

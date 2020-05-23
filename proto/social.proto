@@ -1,0 +1,57 @@
+syntax = "proto3";
+package customer;
+
+option go_package = ".;autogen";
+
+import "google/api/annotations.proto";
+
+message EchoMessage {
+     string value = 1;
+}
+
+
+message EmailContact {
+    string email = 1;
+    string description = 2;
+}
+
+
+message EmailContactList {
+    repeated EmailContact emailContacts = 1;
+}
+
+message GenericFilter {
+    string keyword = 1;
+}
+
+
+// The Customer service definition.
+service Social {   
+  rpc GetEmailContactList(GenericFilter) returns (EmailContactList) {
+        option (google.api.http) = { 
+            get: "/v1.0/social/contact/list" 
+        };
+  }
+
+  rpc Echo(EchoMessage) returns (EchoMessage) {
+		option (google.api.http) = {
+          get: "/v1/echo"
+		};
+	}
+
+
+//  rpc Echo(EchoMessage) returns (EchoMessage) {
+//		option (google.api.http) = {
+//          post: "/v1/echo"
+//		  body: "*"
+//		};
+//	}
+
+  // Create a new Customer - A simple RPC 
+  //rpc CreateCustomer (CustomerRequest) returns (CustomerResponse) {
+  //      option (google.api.http) = {
+  //          post: "/v1/customer",
+  //          body: "*"
+  //      };
+  //    }
+}

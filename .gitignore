@@ -3,3 +3,5 @@ client/client
 service/service
 .DS_Store
 .vscode
+.env
+data

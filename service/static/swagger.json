@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "testing.proto",
+    "title": "social.proto",
     "version": "version not set"
   },
   "consumes": [
@@ -11,48 +11,14 @@
     "application/json"
   ],
   "paths": {
-    "/v1/customer": {
-      "post": {
-        "summary": "Create a new Customer - A simple RPC",
-        "operationId": "Customer_CreateCustomer",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/customerCustomerResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response",
-            "schema": {
-              "$ref": "#/definitions/runtimeError"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/customerCustomerRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Customer"
-        ]
-      }
-    },
-    "/v1/customer/list": {
+    "/v1.0/social/contact/list": {
       "get": {
-        "summary": "Get all Customers with filter - A server-to-client streaming RPC.\nrpc GetCustomers(CustomerFilter) returns (stream CustomerRequest) {\n      option (google.api.http) = { get: \"/v1/customer/list\" };\n    }",
-        "operationId": "Customer_GetCustomers",
+        "operationId": "Social_GetEmailContactList",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/customerCustomerList"
+              "$ref": "#/definitions/customerEmailContactList"
             }
           },
           "default": {
@@ -71,79 +37,69 @@
           }
         ],
         "tags": [
-          "Customer"
+          "Social"
+        ]
+      }
+    },
+    "/v1/echo": {
+      "get": {
+        "operationId": "Social_Echo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/customerEchoMessage"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "value",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Social"
         ]
       }
     }
   },
   "definitions": {
-    "CustomerRequestAddress": {
+    "customerEchoMessage": {
       "type": "object",
       "properties": {
-        "street": {
+        "value": {
           "type": "string"
-        },
-        "city": {
-          "type": "string"
-        },
-        "state": {
-          "type": "string"
-        },
-        "zip": {
-          "type": "string"
-        },
-        "isShippingAddress": {
-          "type": "boolean",
-          "format": "boolean"
         }
       }
     },
-    "customerCustomerList": {
+    "customerEmailContact": {
       "type": "object",
       "properties": {
-        "customers": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/customerCustomerRequest"
-          }
-        }
-      }
-    },
-    "customerCustomerRequest": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
-        },
         "email": {
           "type": "string"
         },
-        "phone": {
+        "description": {
           "type": "string"
-        },
-        "addresses": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/CustomerRequestAddress"
-          }
         }
-      },
-      "title": "Request message for creating a new customer"
+      }
     },
-    "customerCustomerResponse": {
+    "customerEmailContactList": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "success": {
-          "type": "boolean",
-          "format": "boolean"
+        "emailContacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/customerEmailContact"
+          }
         }
       }
     },
