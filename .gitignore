@@ -1,1 +1,5 @@
 temp
+client/client
+service/service
+.DS_Store
+.vscode

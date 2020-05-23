@@ -7,6 +7,10 @@ import "google/api/annotations.proto";
 //import "google/protobuf/empty.proto";
 
 
+message CustomerList {
+  repeated CustomerRequest customers =1;
+}
+
 // Request message for creating a new customer
 message CustomerRequest {
   int32 id = 1;  // Unique ID number for a Customer.
@@ -36,9 +40,14 @@ message CustomerFilter {
 // The Customer service definition.
 service Customer {   
   // Get all Customers with filter - A server-to-client streaming RPC.
-  rpc GetCustomers(CustomerFilter) returns (stream CustomerRequest) {
+  // rpc GetCustomers(CustomerFilter) returns (stream CustomerRequest) {
+  //       option (google.api.http) = { get: "/v1/customer/list" };
+  //     }
+  rpc GetCustomers(CustomerFilter) returns (CustomerList) {
         option (google.api.http) = { get: "/v1/customer/list" };
       }
+
+
   // Create a new Customer - A simple RPC 
   rpc CreateCustomer (CustomerRequest) returns (CustomerResponse) {
         option (google.api.http) = {

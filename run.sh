@@ -34,9 +34,9 @@ genProxy()
 
 genSwagger() 
 {
-  rm -fr temp; mkdir temp 
+  rm -fr temp; mkdir temp  service/static/ || echo "already exists" 
   protoc -I $DIR $DIR/$FILE --swagger_out=logtostderr=true:temp
-  rsync -a temp/ service/
+  cp temp/*.json  service/static/swagger.json
 
 }
 

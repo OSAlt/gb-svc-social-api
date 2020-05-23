@@ -35,7 +35,7 @@ var (
 	filter_Customer_GetCustomers_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
 )
 
-func request_Customer_GetCustomers_0(ctx context.Context, marshaler runtime.Marshaler, client CustomerClient, req *http.Request, pathParams map[string]string) (Customer_GetCustomersClient, runtime.ServerMetadata, error) {
+func request_Customer_GetCustomers_0(ctx context.Context, marshaler runtime.Marshaler, client CustomerClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq CustomerFilter
 	var metadata runtime.ServerMetadata
 
@@ -46,16 +46,24 @@ func request_Customer_GetCustomers_0(ctx context.Context, marshaler runtime.Mars
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	stream, err := client.GetCustomers(ctx, &protoReq)
-	if err != nil {
-		return nil, metadata, err
+	msg, err := client.GetCustomers(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_Customer_GetCustomers_0(ctx context.Context, marshaler runtime.Marshaler, server CustomerServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CustomerFilter
+	var metadata runtime.ServerMetadata
+
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	header, err := stream.Header()
-	if err != nil {
-		return nil, metadata, err
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Customer_GetCustomers_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	metadata.HeaderMD = header
-	return stream, metadata, nil
+
+	msg, err := server.GetCustomers(ctx, &protoReq)
+	return msg, metadata, err
 
 }
 
@@ -99,10 +107,23 @@ func local_request_Customer_CreateCustomer_0(ctx context.Context, marshaler runt
 func RegisterCustomerHandlerServer(ctx context.Context, mux *runtime.ServeMux, server CustomerServer) error {
 
 	mux.Handle("GET", pattern_Customer_GetCustomers_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
-		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
-		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
-		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
-		return
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Customer_GetCustomers_0(rctx, inboundMarshaler, server, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_Customer_GetCustomers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
 	})
 
 	mux.Handle("POST", pattern_Customer_CreateCustomer_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
@@ -182,7 +203,7 @@ func RegisterCustomerHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 			return
 		}
 
-		forward_Customer_GetCustomers_0(ctx, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+		forward_Customer_GetCustomers_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -216,7 +237,7 @@ var (
 )
 
 var (
-	forward_Customer_GetCustomers_0 = runtime.ForwardResponseStream
+	forward_Customer_GetCustomers_0 = runtime.ForwardResponseMessage
 
 	forward_Customer_CreateCustomer_0 = runtime.ForwardResponseMessage
 )

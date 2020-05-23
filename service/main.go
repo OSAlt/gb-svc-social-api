@@ -1,57 +1,99 @@
 package main
 
 import (
-    // samir "context"
-    _ "net/http"
+	"context"
+	"fmt"
 
-    pb "github.com/OSAlt/geekbeacon/service/autogen"
+	pb "github.com/OSAlt/geekbeacon/service/autogen"
 
-    "log"
-    "net"
-    "strings"
+	"log"
+	"net"
 
-    "golang.org/x/net/context"
-    "google.golang.org/grpc"
+	// "golang.org/x/net/context"
+	"google.golang.org/grpc"
+
+	"flag"
+	"net/http"
+	"sync"
+
+	"github.com/golang/glog"
+	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 )
 
 const (
-    port = ":50051"
+	grpcPort = ":50051"
+)
+
+var wg sync.WaitGroup
+
+var (
+	grpcServerEndpoint = flag.String("grpc-server-endpoint", "localhost:50051", "gRPC server endpoint")
 )
 
 // server is used to implement customer.CustomerServer.
-type server struct {
-    savedCustomers []*pb.CustomerRequest
+type Server struct {
+	savedCustomers []*pb.CustomerRequest
 }
 
-// CreateCustomer creates a new Customer
+func startGrpc() {
+	defer wg.Done()
 
-func (s *server) CreateCustomer(ctx context.Context, in *pb.CustomerRequest) (*pb.CustomerResponse, error) {
-    s.savedCustomers = append(s.savedCustomers, in)
-    return &pb.CustomerResponse{Id: in.Id, Success: true}, nil
+	fmt.Println("Starting grpc server on port: ", grpcPort)
+	lis, err := net.Listen("tcp", grpcPort)
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	// Creates a new gRPC server
+
+	s := grpc.NewServer()
+	pb.RegisterCustomerServer(s, &Server{})
+	s.Serve(lis)
+
 }
 
-// GetCustomers returns all customers by given filter
-func (s *server) GetCustomers(filter *pb.CustomerFilter, stream pb.Customer_GetCustomersServer) error {
-    for _, customer := range s.savedCustomers {
-        if filter.Keyword != "" {
-            if !strings.Contains(customer.Name, filter.Keyword) {
-                continue
-            }
-        }
-        if err := stream.Send(customer); err != nil {
-            return err
-        }
-    }
-    return nil
+//https://github.com/grpc-ecosystem/grpc-gateway
+func runWww() error {
+	ctx := context.Background()
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+	// fs := http.FileServer(http.Dir("./static"))
+
+	// Register gRPC server endpoint
+	// Note: Make sure the gRPC server is running properly and accessible
+	// mux := runtime.NewServeMux()
+	fmt.Println("Starting web gateway server on port: 8081")
+	mux := runtime.NewServeMux(
+		// runtime.WithMarshalerOption("application/json+pretty", &runtime.JSONPb{Indent: "  "}),
+		runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.JSONPb{OrigName: false}),
+	)
+
+	opts := []grpc.DialOption{grpc.WithInsecure()}
+	err := pb.RegisterCustomerHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	if err != nil {
+		return err
+	}
+
+	// Start HTTP server (and proxy calls to gRPC server endpoint)
+	return http.ListenAndServe(":8081", mux)
+	// return http.ListenAndServe(":8081", prettier(mux))
+
+}
+
+func startWww() {
+	defer wg.Done()
+	flag.Parse()
+	defer glog.Flush()
+
+	if err := runWww(); err != nil {
+		glog.Fatal(err)
+	}
+
 }
 
 func main() {
-    lis, err := net.Listen("tcp", port)
-    if err != nil {
-        log.Fatalf("failed to listen: %v", err)
-    }
-    // Creates a new gRPC server
-    s := grpc.NewServer()
-    pb.RegisterCustomerServer(s, &server{})
-    s.Serve(lis)
+	wg.Add(2)
+	go startGrpc()
+	go startWww()
+
+	wg.Wait()
 }
