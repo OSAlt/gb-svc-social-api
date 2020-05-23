@@ -31,7 +31,7 @@ var (
 )
 
 // server is used to implement customer.CustomerServer.
-type Server struct {
+type GrpcServer struct {
 	savedCustomers []*pb.CustomerRequest
 }
 
@@ -46,7 +46,7 @@ func startGrpc() {
 	// Creates a new gRPC server
 
 	s := grpc.NewServer()
-	pb.RegisterCustomerServer(s, &Server{})
+	pb.RegisterCustomerServer(s, &GrpcServer{})
 	s.Serve(lis)
 
 }
