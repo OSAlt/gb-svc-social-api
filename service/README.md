@@ -8,3 +8,5 @@ go install \
 sqlboiler.toml controls the behavior you may need to run it multiple times for each schema. 
 
 
+xo "postgres://postgres:secret@localhost:5432/socialdb?sslmode=disable" --schema nixe -o models/nixie
+xo "postgres://postgres:secret@localhost:5432/socialdb?sslmode=disable" --schema config -o models/config

@@ -200,4 +200,5 @@ ALTER TABLE ONLY config.user_social
 
 INSERT INTO public.schema_migrations (version) VALUES
     ('20200523225950'),
-    ('20200523230103');
+    ('20200523230103'),
+    ('20200523231124');

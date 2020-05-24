@@ -1,5 +1,5 @@
-output   = "models"
-wipe     = false
+output   = "models/nixie"
+wipe     = true
 no_tests = true
 
 [psql]

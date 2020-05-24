@@ -2,30 +2,28 @@ package main
 
 import (
 	"context"
+
 	"log"
 
 	pb "github.com/OSAlt/geekbeacon/service/autogen"
+	"github.com/OSAlt/geekbeacon/service/dbmodels/nixie"
 )
 
 func (s *GrpcServer) GetEmailContactList(ctx context.Context, filter *pb.GenericFilter) (*pb.EmailContactList, error) {
-	rows, err := s.sqlDatabase.Query(`SELECT email, description FROM nixie.contact_form`)
+	db := s.sqlDatabase
+
+	contacts, err := nixie.ContactForms().All(ctx, db)
 	if err != nil {
-		log.Fatal("Cannot retrieve data from DB", err.Error())
+		log.Println("failed to retrieve contacts", err)
 	}
-
-	defer rows.Close()
-
 	items := []*pb.EmailContact{}
-	for rows.Next() {
-		var email, description string
-		if err := rows.Scan(&email, &description); err != nil {
-			return nil, err
-		}
 
+	for _, contact := range contacts {
 		items = append(items, &pb.EmailContact{
-			Email:       email,
-			Description: description,
+			Email:       contact.Email,
+			Description: contact.Description,
 		})
+
 	}
 
 	return &pb.EmailContactList{

@@ -7,3 +7,4 @@ service/service
 data
 static
 sqlboiler.toml
+__debug_bin
