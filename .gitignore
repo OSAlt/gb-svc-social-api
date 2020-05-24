@@ -6,3 +6,4 @@ service/service
 .env
 data
 static
+sqlboiler.toml

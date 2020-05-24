@@ -1,0 +1,12 @@
+output   = "models"
+wipe     = false
+no_tests = true
+
+[psql]
+  dbname = "socialdb"
+  host   = "localhost"
+  port   = 5432
+  user   = "postgres"
+  pass   = "secret"
+  schema = "nixie"
+  sslmode = "disable"

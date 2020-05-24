@@ -35,7 +35,7 @@ service Social {
 
   rpc Echo(EchoMessage) returns (EchoMessage) {
 		option (google.api.http) = {
-          get: "/v1/echo"
+          get: "/v1.0/echo"
 		};
 	}
 

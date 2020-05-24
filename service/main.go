@@ -1,15 +1,18 @@
 package main
 
 import (
-	"context"
-	"fmt"
+	"os"
 
 	pb "github.com/OSAlt/geekbeacon/service/autogen"
 
+	_ "github.com/lib/pq"
+
+	"context"
+	"database/sql"
+	"fmt"
 	"log"
 	"net"
 
-	// "golang.org/x/net/context"
 	"google.golang.org/grpc"
 
 	"flag"
@@ -30,9 +33,26 @@ var (
 	grpcServerEndpoint = flag.String("grpc-server-endpoint", "localhost:50051", "gRPC server endpoint")
 )
 
-// server is used to implement customer.CustomerServer.
+//GrpcServer server is used to implement GRPC service
 type GrpcServer struct {
-	// savedCustomers []*pb.CustomerRequest
+	sqlDatabase *sql.DB
+}
+
+//NewService Create a new instance of DB with the DB connection
+func NewService() *GrpcServer {
+	srv := GrpcServer{}
+
+	dbPassword := os.Getenv("POSTGRES_PASSWORD")
+	dbHost := os.Getenv("DB_HOST")
+
+	dataSourceName := fmt.Sprintf("host=%s user=postgres dbname=socialdb password=%s sslmode=disable", dbHost, dbPassword)
+	db, err := sql.Open("postgres", dataSourceName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	srv.sqlDatabase = db
+
+	return &srv
 }
 
 func startGrpc() {
@@ -46,7 +66,8 @@ func startGrpc() {
 	// Creates a new gRPC server
 
 	s := grpc.NewServer()
-	pb.RegisterSocialServer(s, &GrpcServer{})
+	server := NewService()
+	pb.RegisterSocialServer(s, server)
 	s.Serve(lis)
 
 }
