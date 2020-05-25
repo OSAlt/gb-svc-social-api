@@ -9,24 +9,10 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
-type SocialType string
-
-const (
-	facebook  SocialType = "facebook"
-	twitter   SocialType = "twitter"
-	instagram SocialType = "instagram"
-	youtube   SocialType = "youtube"
-	discord   SocialType = "discord"
-	twitch    SocialType = "twitch"
-	aggregate SocialType = "aggregate"
-)
-
-var SocialTypes = [...]SocialType{instagram}
-
 func (s *GrpcServer) GetSocialTypes(ctx context.Context, empty *emptypb.Empty) (*pb.SocialTypeList, error) {
 	listItems := []*pb.SocialType{}
 
-	for _, item := range SocialTypes {
+	for _, item := range social.SocialTypes {
 		listItems = append(listItems, &pb.SocialType{
 			Type: string(item),
 		})
@@ -39,11 +25,17 @@ func (s *GrpcServer) GetSocialTypes(ctx context.Context, empty *emptypb.Empty) (
 
 func (s *GrpcServer) GetSocialCount(ctx context.Context, socialType *pb.SocialType) (*pb.SocialCountResponse, error) {
 
-	if socialType.Type != "instagram" {
+	var obj social.SocialDataService
+	switch socialType.Type {
+
+	case "instagram":
+		obj = (*social.Instagram)(nil)
+	case "discord":
+		obj = (*social.Discord)(nil)
+	default:
 		return nil, errors.New("invalid, unsupported social service requested")
 	}
-	var obj social.SocialDataService
-	obj = (*social.Instagram)(nil)
+
 	res, err := obj.FollowerCount()
 
 	if err != nil {
