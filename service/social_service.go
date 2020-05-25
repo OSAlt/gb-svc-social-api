@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"errors"
 
 	pb "github.com/OSAlt/geekbeacon/service/autogen"
+	"github.com/OSAlt/geekbeacon/service/social"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -33,4 +35,25 @@ func (s *GrpcServer) GetSocialTypes(ctx context.Context, empty *emptypb.Empty) (
 	return &pb.SocialTypeList{
 		Types: listItems,
 	}, nil
+}
+
+func (s *GrpcServer) GetSocialCount(ctx context.Context, socialType *pb.SocialType) (*pb.SocialCountResponse, error) {
+
+	if socialType.Type != "instagram" {
+		return nil, errors.New("invalid, unsupported social service requested")
+	}
+	var obj social.SocialDataService
+	obj = (*social.Instagram)(nil)
+	res, err := obj.FollowerCount()
+
+	if err != nil {
+		return nil, err
+	}
+
+	response := pb.SocialCountResponse{
+		Count: res,
+	}
+
+	return &response, nil
+
 }
