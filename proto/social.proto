@@ -4,6 +4,7 @@ package customer;
 option go_package = ".;autogen";
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 
 message EchoMessage {
      string value = 1;
@@ -13,25 +14,44 @@ message EchoMessage {
 message EmailContact {
     string email = 1;
     string description = 2;
+    string domain = 3;
 }
 
+message SocialType {
+    string type = 1;
+}
+
+message SocialTypeList {
+    repeated SocialType types = 1;
+
+
+}
 
 message EmailContactList {
     repeated EmailContact emailContacts = 1;
 }
 
 message GenericFilter {
-    string keyword = 1;
+    string domain = 1;
 }
 
 
 // The Customer service definition.
 service Social {   
+  //Nixie
   rpc GetEmailContactList(GenericFilter) returns (EmailContactList) {
         option (google.api.http) = { 
             get: "/v1.0/social/contact/list" 
         };
   }
+
+  //Social
+  rpc GetSocialTypes(google.protobuf.Empty) returns (SocialTypeList) {
+        option (google.api.http) = { 
+            get: "/v1.0/social/types" 
+        };
+  }
+
 
   rpc Echo(EchoMessage) returns (EchoMessage) {
 		option (google.api.http) = {
@@ -40,18 +60,4 @@ service Social {
 	}
 
 
-//  rpc Echo(EchoMessage) returns (EchoMessage) {
-//		option (google.api.http) = {
-//          post: "/v1/echo"
-//		  body: "*"
-//		};
-//	}
-
-  // Create a new Customer - A simple RPC 
-  //rpc CreateCustomer (CustomerRequest) returns (CustomerResponse) {
-  //      option (google.api.http) = {
-  //          post: "/v1/customer",
-  //          body: "*"
-  //      };
-  //    }
 }

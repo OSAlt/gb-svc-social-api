@@ -15,6 +15,7 @@ import (
 
 	"github.com/golang/protobuf/descriptor"
 	"github.com/golang/protobuf/proto"
+	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/grpc-ecosystem/grpc-gateway/utilities"
 	"google.golang.org/grpc"
@@ -63,6 +64,24 @@ func local_request_Social_GetEmailContactList_0(ctx context.Context, marshaler r
 	}
 
 	msg, err := server.GetEmailContactList(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
+func request_Social_GetSocialTypes_0(ctx context.Context, marshaler runtime.Marshaler, client SocialClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq empty.Empty
+	var metadata runtime.ServerMetadata
+
+	msg, err := client.GetSocialTypes(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_Social_GetSocialTypes_0(ctx context.Context, marshaler runtime.Marshaler, server SocialServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq empty.Empty
+	var metadata runtime.ServerMetadata
+
+	msg, err := server.GetSocialTypes(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -125,6 +144,26 @@ func RegisterSocialHandlerServer(ctx context.Context, mux *runtime.ServeMux, ser
 		}
 
 		forward_Social_GetEmailContactList_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_Social_GetSocialTypes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateIncomingContext(ctx, mux, req)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_Social_GetSocialTypes_0(rctx, inboundMarshaler, server, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_Social_GetSocialTypes_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -209,6 +248,26 @@ func RegisterSocialHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 
 	})
 
+	mux.Handle("GET", pattern_Social_GetSocialTypes_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		rctx, err := runtime.AnnotateContext(ctx, mux, req)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_Social_GetSocialTypes_0(rctx, inboundMarshaler, client, req, pathParams)
+		ctx = runtime.NewServerMetadataContext(ctx, md)
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_Social_GetSocialTypes_0(ctx, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
 	mux.Handle("GET", pattern_Social_Echo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -235,11 +294,15 @@ func RegisterSocialHandlerClient(ctx context.Context, mux *runtime.ServeMux, cli
 var (
 	pattern_Social_GetEmailContactList_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v1.0", "social", "contact", "list"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_Social_Echo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "echo"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_Social_GetSocialTypes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1.0", "social", "types"}, "", runtime.AssumeColonVerbOpt(true)))
+
+	pattern_Social_Echo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1.0", "echo"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (
 	forward_Social_GetEmailContactList_0 = runtime.ForwardResponseMessage
+
+	forward_Social_GetSocialTypes_0 = runtime.ForwardResponseMessage
 
 	forward_Social_Echo_0 = runtime.ForwardResponseMessage
 )
