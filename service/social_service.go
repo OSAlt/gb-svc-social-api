@@ -12,7 +12,7 @@ import (
 func (s *GrpcServer) GetSocialTypes(ctx context.Context, empty *emptypb.Empty) (*pb.SocialTypeList, error) {
 	listItems := []*pb.SocialType{}
 
-	for _, item := range social.SocialTypes {
+	for item, _ := range social.SocialLookup {
 		listItems = append(listItems, &pb.SocialType{
 			Type: string(item),
 		})

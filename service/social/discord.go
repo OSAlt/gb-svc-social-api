@@ -3,18 +3,16 @@ package social
 import (
 	"fmt"
 
+	"github.com/spf13/viper"
 	"github.com/yalp/jsonpath"
-)
-
-const (
-	DISCORD_URL    = "https://discordapp.com/api/v6/invites/%s"
-	DISCORD_SERVER = "geekbeacon"
 )
 
 type Discord struct{}
 
 func (s *Discord) FollowerCount() (int64, error) {
-	url := fmt.Sprintf(DISCORD_URL, DISCORD_SERVER)
+	user := viper.GetString("social.discord.username")
+	baseUrl := viper.GetString("social.discord.url")
+	url := fmt.Sprintf(baseUrl, user)
 	parameters := map[string]string{
 		"with_counts": "true",
 	}
@@ -30,8 +28,6 @@ func (s *Discord) FollowerCount() (int64, error) {
 	return int64(f64), nil
 
 }
-
-
 
 func (s *Discord) GetSocialType() string {
 	return "discord"

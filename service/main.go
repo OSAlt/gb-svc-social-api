@@ -4,6 +4,7 @@ import (
 	"os"
 
 	pb "github.com/OSAlt/geekbeacon/service/autogen"
+	"github.com/spf13/viper"
 
 	_ "github.com/lib/pq"
 
@@ -117,4 +118,17 @@ func main() {
 	go startWww()
 
 	wg.Wait()
+}
+
+func init() {
+	viper.SetConfigName("app") // name of config file (without extension)
+	// viper.SetConfigType("yaml") // or viper.SetConfigType("YAML")
+	viper.AddConfigPath("app.yaml")
+	viper.AddConfigPath(".")
+
+	err := viper.ReadInConfig() // Find and read the config file
+	if err != nil {
+		log.Fatal(err)
+	}
+
 }

@@ -4,6 +4,9 @@ import (
 	"errors"
 )
 
+//NOTE: this adapter pattern is inherited from Java.  It's likely an anti-pattern in go,
+// but for the initial phase i'm porting it as is.
+
 type SocialType string
 
 const (
@@ -15,8 +18,6 @@ const (
 	TwitchType    SocialType = "twitch"
 	AggregateType SocialType = "aggregate"
 )
-
-var SocialTypes = []SocialType{InstagramType, FacebookType, DiscordType}
 
 var SocialLookup map[SocialType]SocialDataService
 
@@ -38,7 +39,7 @@ func (s SocialType) IsValid() bool {
 
 func GetSocialType(typeRequest string) (SocialType, error) {
 
-	for _, k := range SocialTypes {
+	for k, _ := range SocialLookup {
 		str := string(k)
 		if str == typeRequest {
 			return k, nil

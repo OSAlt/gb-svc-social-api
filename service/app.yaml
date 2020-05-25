@@ -2,14 +2,21 @@ debug: true
 
 social:
   youtube:
+    channels: 
+      - "NixiePixel"
+      - "nixiedoeslinux"
     enabled: true
+    url: "https://www.googleapis.com/youtube/v3/channels"
   twitch:
     enabled: true
     user_name: nixiepixel
   twitter:
     enabled: true
   instagram:
+    url: "https://www.instagram.com/%s/"
     username: nixietron
   discord:
+    url: "https://discordapp.com/api/v6/invites/%s"
+    url_format: "https://www.instagram.com/p/%s/"
     username: geekbeacon
 

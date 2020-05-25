@@ -3,19 +3,16 @@ package social
 import (
 	"fmt"
 
+	"github.com/spf13/viper"
 	"github.com/yalp/jsonpath"
 )
 
 type Instagram struct{}
 
-const (
-	INSTAGRAM_URL_FORMAT = "https://www.instagram.com/p/%s/"
-	INSTAGRAM_API_URL    = "https://www.instagram.com/%s/"
-	USERNAME             = "nixietron"
-)
-
 func (s *Instagram) FollowerCount() (int64, error) {
-	url := fmt.Sprintf(INSTAGRAM_API_URL, USERNAME)
+	user := viper.GetString("social.instagram.username")
+	baseUrl := viper.GetString("social.instagram.url")
+	url := fmt.Sprintf(baseUrl, user)
 	parameters := map[string]string{
 		"__a": "1",
 	}
