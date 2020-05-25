@@ -1,0 +1,15 @@
+debug: true
+
+social:
+  youtube:
+    enabled: true
+  twitch:
+    enabled: true
+    user_name: nixiepixel
+  twitter:
+    enabled: true
+  instagram:
+    username: nixietron
+  discord:
+    username: geekbeacon
+
