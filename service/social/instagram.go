@@ -31,3 +31,7 @@ func (s *Instagram) FollowerCount() (int64, error) {
 	return int64(f64), nil
 
 }
+
+func (s *Instagram) GetSocialType() string {
+	return "instagram"
+}

@@ -23,19 +23,18 @@ func (s *GrpcServer) GetSocialTypes(ctx context.Context, empty *emptypb.Empty) (
 	}, nil
 }
 
-func (s *GrpcServer) GetSocialCount(ctx context.Context, socialType *pb.SocialType) (*pb.SocialCountResponse, error) {
+func (s *GrpcServer) GetSocialCount(ctx context.Context, request *pb.SocialType) (*pb.SocialCountResponse, error) {
 
-	var obj social.SocialDataService
-	switch socialType.Type {
-
-	case "instagram":
-		obj = (*social.Instagram)(nil)
-	case "discord":
-		obj = (*social.Discord)(nil)
-	case "facebook":
-		obj = (*social.Facebook)(nil)
-	default:
+	var socialType social.SocialType
+	if !social.SocialType(request.Type).IsValid() {
 		return nil, errors.New("invalid, unsupported social service requested")
+	} else {
+		socialType, _ = social.GetSocialType(request.Type)
+	}
+
+	obj, err := social.GetSocialService(socialType)
+	if err != nil {
+		return nil, errors.New("invalid, Could not obtain a valid handler")
 	}
 
 	res, err := obj.FollowerCount()

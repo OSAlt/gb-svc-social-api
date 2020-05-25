@@ -30,3 +30,9 @@ func (s *Discord) FollowerCount() (int64, error) {
 	return int64(f64), nil
 
 }
+
+
+
+func (s *Discord) GetSocialType() string {
+	return "discord"
+}

@@ -6,30 +6,9 @@ import (
 	"net/http"
 )
 
-type SocialType string
-
-const (
-	facebook  SocialType = "facebook"
-	twitter   SocialType = "twitter"
-	instagram SocialType = "instagram"
-	youtube   SocialType = "youtube"
-	discord   SocialType = "discord"
-	twitch    SocialType = "twitch"
-	aggregate SocialType = "aggregate"
-)
-
-var SocialTypes = [...]SocialType{instagram}
-
-var SocialLookup map[SocialType]SocialDataService
-
-func (s *SocialType) IsValid(val SocialType) bool {
-
-	return false
-
-}
-
 type SocialDataService interface {
 	FollowerCount() (int64, error) //return follower count
+	GetSocialType() string
 	// authorizeApplication()  Authorize the application to access user data or social media api at least on behalf of user
 	// void saveRequestToken(String token, String verifier)  persist data to DB
 	//  List<SocialActivity> getSocialActivity(limit int);
@@ -56,12 +35,4 @@ func loadRemoteData(url string, parameters map[string]string, requestType string
 	}
 
 	return data, nil
-}
-
-func init() {
-
-	SocialLookup = make(map[SocialType]SocialDataService)
-	// var obj SocialDataService
-	// SocialLookup[instagram] = obj = (*social.Instagram)(nil)
-
 }
