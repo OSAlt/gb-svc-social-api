@@ -32,6 +32,8 @@ func (s *GrpcServer) GetSocialCount(ctx context.Context, socialType *pb.SocialTy
 		obj = (*social.Instagram)(nil)
 	case "discord":
 		obj = (*social.Discord)(nil)
+	case "facebook":
+		obj = (*social.Facebook)(nil)
 	default:
 		return nil, errors.New("invalid, unsupported social service requested")
 	}
