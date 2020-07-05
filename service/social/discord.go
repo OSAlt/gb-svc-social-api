@@ -2,6 +2,8 @@ package social
 
 import (
 	"fmt"
+	pb "github.com/OSAlt/geekbeacon/service/autogen"
+	"github.com/OSAlt/geekbeacon/service/common"
 
 	"github.com/spf13/viper"
 	"github.com/yalp/jsonpath"
@@ -31,4 +33,10 @@ func (s *Discord) FollowerCount() (int64, error) {
 
 func (s *Discord) GetSocialType() string {
 	return "discord"
+}
+
+func (s *Discord) GetSocialActivity(limit *common.Pagination) (*pb.SocialActivityList, error) {
+	result := pb.SocialActivityList{}
+	return &result, nil
+
 }

@@ -2,6 +2,8 @@ package social
 
 import (
 	"encoding/json"
+	pb "github.com/OSAlt/geekbeacon/service/autogen"
+	"github.com/OSAlt/geekbeacon/service/common"
 	"log"
 	"net/http"
 )
@@ -9,6 +11,7 @@ import (
 type SocialDataService interface {
 	FollowerCount() (int64, error) //return follower count
 	GetSocialType() string
+	GetSocialActivity(limit *common.Pagination) (*pb.SocialActivityList, error)
 	// authorizeApplication()  Authorize the application to access user data or social media api at least on behalf of user
 	// void saveRequestToken(String token, String verifier)  persist data to DB
 	//  List<SocialActivity> getSocialActivity(limit int);

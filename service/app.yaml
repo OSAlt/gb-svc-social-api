@@ -14,6 +14,7 @@ social:
     enabled: true
   instagram:
     url: "https://www.instagram.com/%s/"
+    post_url:  "https://www.instagram.com/p/%s/"
     username: nixietron
   discord:
     url: "https://discordapp.com/api/v6/invites/%s"

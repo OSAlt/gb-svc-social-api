@@ -54,7 +54,7 @@ func GetSocialType(typeRequest string) (SocialType, error) {
 func GetSocialService(socialType SocialType) (SocialDataService, error) {
 	obj, ok := SocialLookup[socialType]
 	if !ok {
-		return nil, errors.New("Invalid")
+		return nil, errors.New("invalid, social service requested")
 	}
 	return obj, nil
 }

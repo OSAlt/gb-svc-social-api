@@ -73,7 +73,6 @@ func startGrpc() {
 
 }
 
-//https://github.com/grpc-ecosystem/grpc-gateway
 func runWww() error {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
