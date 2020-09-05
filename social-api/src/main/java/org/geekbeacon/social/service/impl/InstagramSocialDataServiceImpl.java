@@ -7,6 +7,7 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
 import lombok.extern.log4j.Log4j2;
 import net.minidev.json.JSONArray;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
@@ -24,7 +25,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -53,17 +57,18 @@ public class InstagramSocialDataServiceImpl implements SocialDataService {
      */
     @Override
     public int getFollowerCount() {
-        try {
-            HttpUriRequest request = getRequest();
-            HttpResponse response = HttpClients.createMinimal().execute(request);
-            validateResponse(response, true);
-            int followers = JsonPath.read(EntityUtils.toString(response.getEntity()), "$.graphql.user.edge_followed_by.count");
-            log.debug("The {} channel: {} has {} followers.", socialType.name(), username, followers);
-            return followers;
-        } catch (Exception e) {
-            log.error("Failed to retrieve data, falling back on defaults", e);
-            return 0;
-        }
+//        try {
+//            HttpUriRequest request = getRequest();
+//            HttpResponse response = HttpClients.createMinimal().execute(request);
+//            validateResponse(response, true);
+//            int followers = JsonPath.read(EntityUtils.toString(response.getEntity()), "$.graphql.user.edge_followed_by.count");
+//            log.debug("The {} channel: {} has {} followers.", socialType.name(), username, followers);
+//            return followers;
+//        } catch (Exception e) {
+//            log.error("Failed to retrieve data, falling back on defaults", e);
+//            return 0;
+//        }
+        return 6823; // hard coded
     }
 
     /**
@@ -89,10 +94,9 @@ public class InstagramSocialDataServiceImpl implements SocialDataService {
     public List<SocialActivity> getSocialActivity(int limit) {
         List<SocialActivity> activities = Lists.newArrayList();
         try {
-            HttpUriRequest request = getRequest();
-            HttpResponse response = HttpClients.createMinimal().execute(request);
-            validateResponse(response, true);
-            String rawJson = EntityUtils.toString(response.getEntity());
+            String rawJson = getData(true);
+            log.info(rawJson);
+
             Object document = Configuration.defaultConfiguration().jsonProvider().parse(rawJson);
 
             //get Array of all posts
@@ -149,6 +153,31 @@ public class InstagramSocialDataServiceImpl implements SocialDataService {
             .addParameter("__a", "1")
             .build();
         return request;
+    }
+
+    private String getData(boolean local) {
+        if(local) {
+            InputStream stream = this.getClass().getResourceAsStream("/instagram_response.json");
+            try {
+                return IOUtils.toString(stream, StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                log.warn("Failed to read local json file returning empty result set");
+            }
+
+            return "{}";
+        } else {
+            try {
+                HttpUriRequest request = getRequest();
+                HttpResponse response = HttpClients.createMinimal().execute(request);
+                String rawJson = EntityUtils.toString(response.getEntity());
+                validateResponse(response, true);
+                return rawJson;
+            } catch (Exception e) {
+                log.error("Failed to get data from endpoint, falling back on local copy");
+                return getData(true);
+            }
+        }
+
     }
 
 

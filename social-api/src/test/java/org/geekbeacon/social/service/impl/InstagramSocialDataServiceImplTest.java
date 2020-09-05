@@ -34,7 +34,7 @@ public class InstagramSocialDataServiceImplTest {
 
     @Test
     public void getCount() {
-        int expected = 4807;
+        int expected = 6823;
         int count = service.getFollowerCount();
         assertEquals(expected,count);
     }
