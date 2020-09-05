@@ -9,7 +9,7 @@ services:
         - ./data:/var/lib/postgresql/data
       env_file: .env
       ports:
-        - 9000:2020
+        - 9020:2020
   social_db:
     image: postgres:11.5
     volumes:
