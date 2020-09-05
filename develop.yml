@@ -5,11 +5,9 @@ services:
       image: geekbeacon/social-api:latest
       build: social-api
       command:  --server.port=2020 --spring.database.url=jdbc:postgresql://db:5432/social
-      volumes:
-        - ./data:/var/lib/postgresql/data
       env_file: .env
       ports:
-        - 9000:2020
+        - 9020:2020
   migrate:
     image: flyway/flyway:6.5.5
     command: -configFiles=conf/docker.conf migrate

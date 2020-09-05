@@ -2,20 +2,16 @@ version: '3.7'
 
 services:
   social_www:
-      image: geekbeacon/social-api:latest
-      build: social-api
-      command:  --server.port=2020 --spring.database.url=jdbc:postgresql://db:5432/social
-      volumes:
-        - ./data:/var/lib/postgresql/data
-      env_file: .env
-      ports:
-        - 9020:2020
-  social_db:
-    image: postgres:11.5
-    volumes:
-      - ./data:/var/lib/postgresql/data
-    restart: always
+    image: geekbeacon/social-api:latest
+    build: social-api
+    command:  --server.port=2020 --spring.database.url=jdbc:postgresql://db:5432/social
     env_file: .env
+    ports:
+      - 9020:2020
+    networks:
+      - shared_backend
+    external_links:
+      - shared_psql
 
 
 networks:
