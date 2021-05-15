@@ -9,3 +9,5 @@ static
 sqlboiler.toml
 __debug_bin
 .idea
+conf/app.yml
+V999__private.sql
