@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  socialsvc:
+    external_links:
+      - shared_psql
+    networks:
+      - shared_backend
+    image: geekbeacon/socialsvc:latest
+    volumes:
+        - ./conf:/opt/gb-svc-social-api/conf/
+        - ./static:/opt/gb-svc-social-api/static/
+    ports:
+      - 8012:8012
+    restart: always
+    env_file: .env
+
+networks:
+  shared_backend:
+    name: shared_backend
+    external: true
+

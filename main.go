@@ -5,6 +5,8 @@ package main
 //go:generate mkdir -p dbmodels/config/models
 //go:generate sqlboiler --wipe psql -c conf/dbconf/config_boiler.toml
 //go:generate sqlboiler --wipe psql -c conf/dbconf/nixie_boiler.toml
+//go:generate mkdir -p static
+//go:generate swagger generate spec -o static/swagger.json
 import (
 	"fmt"
 	"os"
