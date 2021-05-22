@@ -3,7 +3,7 @@ services:
   socialsvc:
     build:
       context: .
-    image: geekbeacon/socialsvc:latest
+    image: geekbeacon/social-api:latest
     volumes:
         - ./conf:/opt/gb-svc-social-api/conf/
     ports:

@@ -25,9 +25,9 @@ func GetServices() *Services {
 	return nil
 }
 
-func Initialize(user, password, dbname string) *sql.DB {
+func Initialize(user, password, dbname, host string) *sql.DB {
 	connectionString :=
-		fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, password, dbname)
+		fmt.Sprintf("user=%s password=%s dbname=%s host=%s sslmode=disable", user, password, dbname, host)
 
 	var err error
 	instance = &Services{}

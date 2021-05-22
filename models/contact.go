@@ -2,6 +2,11 @@ package models
 
 import dbModels "github.com/OSAlt/gb-svc-social-api/dbmodels/nixie/models"
 
+//Contact Json request payload is as follows,
+//{
+//  "email": "john@domain.tld",
+//  "description":  "HR Support Email"
+//}
 type Contact struct {
 	Domain      string `json:"-"`
 	Email       string `json:"email"`

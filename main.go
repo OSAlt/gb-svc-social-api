@@ -18,7 +18,8 @@ func main() {
 	a.Initialize(
 		os.Getenv("POSTGRES_USER"),
 		os.Getenv("POSTGRES_PASSWORD"),
-		os.Getenv("POSTGRES_DB"))
+		os.Getenv("POSTGRES_DB"),
+		os.Getenv("DB_HOST"))
 
 	port := os.Getenv("SERVICE_PORT")
 	if port == "" {

@@ -32,9 +32,9 @@ type App struct {
 	Cache         store.Cache
 }
 
-func (a *App) Initialize(user, password, dbname string) {
+func (a *App) Initialize(user, password, dbname, host string) {
 	a.S = &services.Services{}
-	a.S.DB = services.Initialize(user, password, dbname)
+	a.S.DB = services.Initialize(user, password, dbname, host)
 	a.Router = mux.NewRouter().StrictSlash(true)
 	a.setupGoGuardian()
 	a.setupEmail()
