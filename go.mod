@@ -25,7 +25,7 @@ require (
 	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/volatiletech/null/v8 v8.1.2
 	github.com/volatiletech/sqlboiler/v4 v4.5.0
-	github.com/volatiletech/strmangle v0.0.1
+	github.com/volatiletech/strmangle v0.0.2
 	github.com/yalp/jsonpath v0.0.0-20180802001716-5cc68e5049a0
 	golang.org/x/sys v0.0.0-20210514084401-e8d321eab015 // indirect
 	golang.org/x/text v0.3.6 // indirect

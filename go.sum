@@ -284,6 +284,8 @@ github.com/volatiletech/sqlboiler/v4 v4.5.0 h1:oJ3YXEvv0c48S9W/3TuPLxJxefIkewpub
 github.com/volatiletech/sqlboiler/v4 v4.5.0/go.mod h1:tQgF5zxwqrjR6Wydc5rRylI6puDOO1WvBC70/5up+Hg=
 github.com/volatiletech/strmangle v0.0.1 h1:UKQoHmY6be/R3tSvD2nQYrH41k43OJkidwEiC74KIzk=
 github.com/volatiletech/strmangle v0.0.1/go.mod h1:F6RA6IkB5vq0yTG4GQ0UsbbRcl3ni9P76i+JrTBKFFg=
+github.com/volatiletech/strmangle v0.0.2 h1:amhpV9ATyq1DtkQ2D8WF94uqGpkYYmSmx7X2QIner/A=
+github.com/volatiletech/strmangle v0.0.2/go.mod h1:F6RA6IkB5vq0yTG4GQ0UsbbRcl3ni9P76i+JrTBKFFg=
 github.com/xiang90/probing v0.0.0-20190116061207-43a291ad63a2/go.mod h1:UETIi67q53MR2AWcXfiuqkDkRtnGDLqkBTpCHuJHxtU=
 github.com/xordataexchange/crypt v0.0.3-0.20170626215501-b2862e3d0a77/go.mod h1:aYKd//L2LvnjZzWKhF00oedf4jCCReLcmhLdhm1A27Q=
 github.com/yalp/jsonpath v0.0.0-20180802001716-5cc68e5049a0 h1:6fRhSjgLCkTD3JnJxvaJ4Sj+TYblw757bqYgZaOq5ZY=
