@@ -10,3 +10,5 @@ sqlboiler.toml
 __debug_bin
 .idea
 conf/app.yml
+.history
+social-api-parent.iml
