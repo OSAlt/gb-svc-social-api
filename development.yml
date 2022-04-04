@@ -9,7 +9,7 @@ services:
     ports:
       - 8011:8011
   social_db:
-    image: postgres:12
+    image: postgres:14
     ports:
       - 5432:5432
     volumes:
