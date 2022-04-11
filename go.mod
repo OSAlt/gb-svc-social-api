@@ -7,7 +7,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/handlers v1.5.1
 	github.com/gorilla/mux v1.8.0
-	github.com/lib/pq v1.10.4
+	github.com/lib/pq v1.10.5
 	github.com/shaj13/go-guardian v1.5.11
 	github.com/sirupsen/logrus v1.8.1
 	github.com/spf13/viper v1.10.1
