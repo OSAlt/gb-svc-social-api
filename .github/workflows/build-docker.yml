@@ -19,7 +19,7 @@ jobs:
           images: geekbeacon/socialsvc
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v3.3.1
+        uses: docker/build-push-action@v5.4.0
         with:
           context: .
           push: false
