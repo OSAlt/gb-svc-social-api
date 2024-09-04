@@ -9,6 +9,7 @@ require (
 	github.com/gorilla/mux v1.8.1
 	github.com/lib/pq v1.10.9
 	github.com/shaj13/go-guardian v1.5.11
+	github.com/shaj13/go-guardian/v2 v2.11.6
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.19.0
 	github.com/volatiletech/null/v8 v8.1.2
