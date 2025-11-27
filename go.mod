@@ -2,7 +2,7 @@ module github.com/OSAlt/gb-svc-social-api
 
 go 1.23.0
 
-toolchain go1.25.3
+toolchain go1.25.4
 
 require (
 	github.com/friendsofgo/errors v0.9.2
