@@ -1,4 +1,4 @@
-FROM golang:1.25.4  AS build-stage
+FROM golang:1.25.6  AS build-stage
 
 LABEL app="build-gb-svc-social-api"
 LABEL REPO="https://github.com/OSAlt/gb-svc-social-api"
@@ -14,7 +14,7 @@ WORKDIR /go/src/github.com/OSAlt/gb-svc-social-api
 RUN make linux
 
 # Final Stage
-FROM golang:1.25.4 
+FROM golang:1.25.6 
 
 ARG GIT_COMMIT
 ARG VERSION
