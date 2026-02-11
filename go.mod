@@ -14,7 +14,7 @@ require (
 	github.com/shaj13/go-guardian/v2 v2.11.6
 	github.com/sirupsen/logrus v1.9.4
 	github.com/spf13/viper v1.21.0
-	github.com/volatiletech/null/v8 v8.1.2
+	github.com/volatiletech/null/v8 v8.1.3
 	github.com/volatiletech/null/v9 v9.0.0
 	github.com/volatiletech/sqlboiler/v4 v4.19.1
 	github.com/volatiletech/strmangle v0.0.8
