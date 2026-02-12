@@ -10,7 +10,7 @@ require (
 	github.com/gorilla/handlers v1.5.2
 	github.com/gorilla/mux v1.8.1
 	github.com/lib/pq v1.11.2
-	github.com/shaj13/go-guardian v1.5.11
+	github.com/shaj13/go-guardian/v2 v2.11.6
 	github.com/shaj13/go-guardian/v2 v2.11.6
 	github.com/sirupsen/logrus v1.9.4
 	github.com/spf13/viper v1.21.0
