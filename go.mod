@@ -12,7 +12,7 @@ require (
 	github.com/lib/pq v1.12.3
 	github.com/shaj13/go-guardian v1.5.11
 	github.com/shaj13/go-guardian/v2 v2.11.6
-	github.com/sirupsen/logrus v1.9.4
+	github.com/sirupsen/logrus v1.10.2
 	github.com/spf13/viper v1.21.0
 	github.com/volatiletech/null/v8 v8.1.2
 	github.com/volatiletech/null/v9 v9.0.0
@@ -43,7 +43,7 @@ require (
 	github.com/volatiletech/randomize v0.0.1 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.9.0 // indirect
-	go.yaml.in/yaml/v3 v3.0.4 // indirect
+	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.28.0 // indirect
